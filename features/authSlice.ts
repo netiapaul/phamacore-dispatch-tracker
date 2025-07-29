@@ -1,14 +1,6 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { loginUserAuth } from "../helpers/api_helper";
-import { Response, User } from "../types/auth";
-
-interface AuthState {
-  user: User;
-  response: Response;
-  isAuthenticated: boolean;
-  isLoading: boolean;
-  error: string;
-}
+import { AuthState } from "../types/auth";
 
 const initialState: AuthState = {
   user: {
@@ -27,10 +19,8 @@ const initialState: AuthState = {
     companyName: "",
     clientCode: "",
   },
-  response: {
-    token: "",
-    refreshToken: "",
-  },
+  token: "",
+  refreshToken: "",
   isAuthenticated: false,
   isLoading: false,
   error: "",
@@ -56,20 +46,6 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    // loginStart: (state) => {
-    //   state.isLoading = true;
-    // },
-    // loginSuccess: (state, action) => {
-    //   state.user = action.payload.user;
-    //   state.token = action.payload.token;
-    //   state.isAuthenticated = true;
-    //   state.loading = false;
-    //   state.error = null;
-    // },
-    // loginFailure: (state, action) => {
-    //   state.error = action.payload;
-    //   state.loading = false;
-    // },
     logout: (state) => {
       state.user = {
         userId: 0,
@@ -87,8 +63,11 @@ export const authSlice = createSlice({
         companyName: "",
         clientCode: "",
       };
-      //   state.token = null;
+      state.token = "";
+      state.refreshToken = "";
       state.isAuthenticated = false;
+      state.isLoading = false;
+      state.error = "";
     },
   },
   extraReducers: (builder) => {
@@ -97,13 +76,16 @@ export const authSlice = createSlice({
         state.isLoading = true;
         state.error = "";
       })
-      //   .addCase(loginUser.fulfilled, (state, action: PayloadAction<User>) => {
-      .addCase(loginUser.fulfilled, (state, action: any) => {
-        state.isLoading = false;
-        state.user = action.payload.user;
-        //   state.token = action.payload.token;
-        state.isAuthenticated = true;
-      })
+      .addCase(
+        loginUser.fulfilled,
+        (state, action: PayloadAction<AuthState>) => {
+          state.isLoading = false;
+          state.user = action.payload.user;
+          state.token = action.payload.token;
+          state.refreshToken = action.payload.refreshToken;
+          state.isAuthenticated = true;
+        }
+      )
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;

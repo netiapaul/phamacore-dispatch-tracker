@@ -15,8 +15,11 @@ export interface User {
   clientCode: string;
 }
 
-export interface Response {
+export interface AuthState {
+  user: User;
   token: string;
   refreshToken: string;
-  //   user: User;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  error: string;
 }

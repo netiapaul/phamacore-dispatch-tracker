@@ -5,7 +5,7 @@ import {
   FormControlLabelText,
 } from "@/components/ui/form-control";
 import { Heading } from "@/components/ui/heading";
-import { EyeIcon, EyeOffIcon } from "@/components/ui/icon";
+import { EyeIcon, EyeOffIcon, InfoIcon } from "@/components/ui/icon";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import { VStack } from "@/components/ui/vstack";
 import { loginUser } from "@/features/authSlice";
@@ -14,6 +14,7 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 // import { useSelector } from "react-redux";
+import { Alert, AlertIcon, AlertText } from "@/components/ui/alert";
 import colors from "tailwindcss/colors";
 
 export default function LoginScreen() {
@@ -46,6 +47,17 @@ export default function LoginScreen() {
             </Heading>
             <Text>Login to start using Dipatch Tracking</Text>
           </VStack>
+          <Alert className="items-start" action="error">
+            <AlertIcon
+              as={InfoIcon}
+              size="md"
+              //   className="stroke-background-500"
+            />
+            <AlertText size="md">
+              Minimum 8 characters, with at least 1 uppercase, 1 lowercase, and
+              1 number required.
+            </AlertText>
+          </Alert>
           <VStack space="md" className="py-2">
             {/* <Text className="text-gray-950">Email</Text> */}
             <FormControlLabel>
