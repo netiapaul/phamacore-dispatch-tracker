@@ -1,3 +1,4 @@
+import { DateFilter } from "@/components/DateFilter";
 import { ItemSearch } from "@/components/ItemSearch";
 import { ReceiveNavBar } from "@/components/ReceiveNavBar";
 import { StatusBar, StyleSheet } from "react-native";
@@ -11,6 +12,7 @@ export default function HomeScreen() {
       {/* <StatusBar barStyle={isDarkMode ? "dark-content" : "light-content"} /> */}
       <StatusBar barStyle={"light-content"} />
       <ItemSearch />
+      <DateFilter />
     </SafeAreaView>
   );
 }
