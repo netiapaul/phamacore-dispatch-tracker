@@ -1,3 +1,4 @@
+import { ItemSearch } from "@/components/ItemSearch";
 import { ReceiveNavBar } from "@/components/ReceiveNavBar";
 import { StatusBar, StyleSheet } from "react-native";
 
@@ -9,6 +10,7 @@ export default function HomeScreen() {
       <ReceiveNavBar />
       {/* <StatusBar barStyle={isDarkMode ? "dark-content" : "light-content"} /> */}
       <StatusBar barStyle={"light-content"} />
+      <ItemSearch />
     </SafeAreaView>
   );
 }
