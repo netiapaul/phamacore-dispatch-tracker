@@ -87,6 +87,7 @@ export const authSlice = createSlice({
           state.token = action.payload.token;
           state.refreshToken = action.payload.refreshToken;
           state.isAuthenticated = true;
+          state.error = "";
         }
       )
       .addCase(loginUser.rejected, (state, action: PayloadAction<any>) => {
