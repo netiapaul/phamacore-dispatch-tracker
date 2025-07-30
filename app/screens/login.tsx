@@ -8,7 +8,7 @@ import { Heading } from "@/components/ui/heading";
 import { EyeIcon, EyeOffIcon, InfoIcon } from "@/components/ui/icon";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import { VStack } from "@/components/ui/vstack";
-import { loginUser } from "@/features/authSlice";
+import { hasError, loginUser } from "@/features/authSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
@@ -21,7 +21,7 @@ export default function LoginScreen() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const { isLoading } = useAppSelector((state) => state.auth);
+  const { isLoading, error } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
 
   const handleState = () => {
@@ -31,7 +31,18 @@ export default function LoginScreen() {
   };
 
   const handleSubmit = () => {
-    dispatch(loginUser({ username, password }));
+    if (!username || !password) {
+      dispatch(hasError("please fill in the blanks"));
+      return;
+    }
+    const results = dispatch(loginUser({ username, password }));
+    if (loginUser.fulfilled.match(results)) {
+      //   router.replace("/index");
+      console.log("RESULTS", results);
+      return;
+    }
+    // console.log("ERROR", results);
+    return;
   };
 
   return (
@@ -47,17 +58,16 @@ export default function LoginScreen() {
             </Heading>
             <Text>Login to start using Dipatch Tracking</Text>
           </VStack>
-          <Alert className="items-start" action="error">
-            <AlertIcon
-              as={InfoIcon}
-              size="md"
-              //   className="stroke-background-500"
-            />
-            <AlertText size="md">
-              Minimum 8 characters, with at least 1 uppercase, 1 lowercase, and
-              1 number required.
-            </AlertText>
-          </Alert>
+          {error && (
+            <Alert className="items-start" action="error">
+              <AlertIcon
+                as={InfoIcon}
+                size="md"
+                //   className="stroke-background-500"
+              />
+              <AlertText size="md">{error}</AlertText>
+            </Alert>
+          )}
           <VStack space="md" className="py-2">
             {/* <Text className="text-gray-950">Email</Text> */}
             <FormControlLabel>
