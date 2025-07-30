@@ -1,3 +1,4 @@
+// import { Heading } from "@/components/ui/heading";
 import { SearchIcon } from "@/components/ui/icon";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import React, { useState } from "react";
@@ -24,6 +25,9 @@ const ItemSearch = () => {
           <InputIcon as={SearchIcon} />
         </InputSlot>
       </Input>
+      {/* <Heading size="sm" className="font-roboto">
+        Whats new?
+      </Heading> */}
     </View>
   );
 };

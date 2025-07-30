@@ -1,20 +1,10 @@
+import SecureStorage from "@/utils/secureStorage";
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 import * as url from "./url_helper";
 const defErrorMessage =
   "No response from server. Please check your internet connection.!";
 // const defErrorMessage = "An error occured processing your current request!";
-
-async function getValueFor(key) {
-  let result = await SecureStore.getItemAsync(key);
-  if (result) {
-    alert("🔐 Here's your value 🔐 \n" + result);
-  } else {
-    alert("No values stored under that key.");
-  }
-
-  return result;
-}
 
 //pass new generated access token here
 const token = SecureStore.getItemAsync("token");
@@ -63,11 +53,13 @@ const loginUserAuth = async (data) => {
 
     if (response.status >= 200 && response.status <= 299) {
       // console.log(response.data);
-      await SecureStore.setItemAsync("token", response.data.token);
-      await SecureStore.setItemAsync(
-        "refreshToken",
-        response.data.refreshToken
-      );
+      await SecureStorage.setItem("token", response.data.token);
+      await SecureStorage.setItem("refreshToken", response.data.refreshToken);
+      // await SecureStore.setItemAsync("token", response.data.token);
+      // await SecureStore.setItemAsync(
+      //   "refreshToken",
+      //   response.data.refreshToken
+      // );
       return response.data;
     }
 
