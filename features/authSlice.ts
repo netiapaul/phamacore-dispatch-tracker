@@ -72,6 +72,11 @@ export const authSlice = createSlice({
     hasError: (state, action) => {
       state.error = action.payload;
     },
+    handleTokenPersistence: (state, action: PayloadAction<string>) => {
+      state.token = action.payload;
+      state.isAuthenticated = true;
+      state.isLoading = false;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -87,6 +92,7 @@ export const authSlice = createSlice({
           state.token = action.payload.token;
           state.refreshToken = action.payload.refreshToken;
           state.isAuthenticated = true;
+          state.error = "";
         }
       )
       .addCase(loginUser.rejected, (state, action: PayloadAction<any>) => {
@@ -100,6 +106,7 @@ export const authSlice = createSlice({
 export const {
   logout,
   hasError,
+  handleTokenPersistence,
   //  loginSuccess, loginFailure, logout
 } = authSlice.actions;
 

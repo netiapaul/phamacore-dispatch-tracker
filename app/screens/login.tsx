@@ -15,6 +15,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 // import { useSelector } from "react-redux";
 import { Alert, AlertIcon, AlertText } from "@/components/ui/alert";
+import { router } from "expo-router";
 import colors from "tailwindcss/colors";
 
 export default function LoginScreen() {
@@ -30,18 +31,16 @@ export default function LoginScreen() {
     });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!username || !password) {
       dispatch(hasError("please fill in the blanks"));
       return;
     }
-    const results = dispatch(loginUser({ username, password }));
+    const results = await dispatch(loginUser({ username, password }));
     if (loginUser.fulfilled.match(results)) {
-      //   router.replace("/index");
-      console.log("RESULTS", results);
+      router.replace("/(tabs)");
       return;
     }
-    // console.log("ERROR", results);
     return;
   };
 
