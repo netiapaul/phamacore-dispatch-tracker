@@ -1,7 +1,7 @@
 import { FontAwesome6 } from "@react-native-vector-icons/fontawesome6";
 import { StyleSheet, Text, TouchableHighlight, View } from "react-native";
 
-function Item({ item: any }) {
+function Item({ item }) {
   return (
     <TouchableHighlight
       activeOpacity={0.8}

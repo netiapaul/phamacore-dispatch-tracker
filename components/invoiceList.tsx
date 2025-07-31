@@ -1,7 +1,8 @@
 import { Item } from "@/components/item";
 import { Divider } from "@/components/ui/divider";
+import { Invoice } from "@/types/invoice";
 import React, { useCallback, useState } from "react";
-import { FlatList, StyleSheet } from "react-native";
+import { FlatList, ListRenderItem, StyleSheet } from "react-native";
 
 export function InvoiceList() {
   const [refreshing, setRefreshing] = useState(false);
@@ -13,7 +14,9 @@ export function InvoiceList() {
     // [dispatch, selectedDate, selectedFilter, searchWord]
   }, []);
 
-  const renderItem = ({ item }) => <Item item={item} />;
+  const renderItem: ListRenderItem<Invoice> = ({ item }) => (
+    <Item item={item} />
+  );
 
   return (
     <FlatList
