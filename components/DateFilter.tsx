@@ -1,6 +1,8 @@
 import { Button, ButtonText } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { CloseIcon, Icon } from "@/components/ui/icon";
+import Moment from "moment";
+
 import {
   Modal,
   ModalBackdrop,
@@ -10,12 +12,15 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@/components/ui/modal";
+import { useAppSelector } from "@/store/hooks";
 import React, { useState } from "react";
 import { StyleSheet, Text, TouchableHighlight, View } from "react-native";
 import { AppDatePicker } from "./AppDatePicker";
 
 export function DateFilter() {
   const [showModal, setShowModal] = useState(false);
+  const { startDate, endDate } = useAppSelector((state) => state.invoice);
+
   return (
     <>
       <TouchableHighlight
@@ -25,12 +30,12 @@ export function DateFilter() {
       >
         <View style={styles.container}>
           <Text style={styles.date}>
-            {`From: ${new Intl.DateTimeFormat("en-GB").format(
+            {/* {`From: ${new Intl.DateTimeFormat("en-GB").format(
               new Date()
-            )} To: ${new Intl.DateTimeFormat("en-GB").format(new Date())}`}
-            {/* {`From: ${Moment(selectedDate.startDate).format(
-            "DD-MM-YY"
-          )}  To: ${Moment(selectedDate.endDate).format("DD-MM-YY")}`} */}
+            )} To: ${new Intl.DateTimeFormat("en-GB").format(new Date())}`} */}
+            {`From: ${Moment(startDate).format("DD/MM/YYYY")}  To: ${Moment(
+              endDate
+            ).format("DD/MM/YYYY")}`}
           </Text>
           <View style={styles.selectText}>
             <Text>Select Date &gt;&gt;</Text>

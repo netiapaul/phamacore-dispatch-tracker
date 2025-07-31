@@ -1,11 +1,17 @@
 import { Item } from "@/components/item";
 import { Divider } from "@/components/ui/divider";
+import { useAppSelector } from "@/store/hooks";
 import { Invoice } from "@/types/invoice";
 import React, { useCallback, useState } from "react";
 import { FlatList, ListRenderItem, StyleSheet } from "react-native";
 
 export function InvoiceList() {
   const [refreshing, setRefreshing] = useState(false);
+
+  const { isLoading } = useAppSelector((state) => state.invoice);
+
+  const { invoices, error } = useAppSelector((state) => state.invoice);
+  console.log("Rendering InvoiceList", invoices);
 
   const refreshList = useCallback(() => {
     setRefreshing(true);
@@ -24,8 +30,7 @@ export function InvoiceList() {
       refreshing={refreshing}
       onRefresh={refreshList}
       style={styles.sectionContainer}
-      //   data={invoices}
-      data={[]}
+      data={invoices}
       renderItem={renderItem}
       keyExtractor={(item) => item.docNumber}
     />
