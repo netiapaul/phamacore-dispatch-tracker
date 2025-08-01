@@ -1,6 +1,7 @@
 import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import "@/global.css";
 import { useColorScheme } from "@/hooks/useColorScheme";
+import { UseTokenLoader } from "@/hooks/useTokenLoader";
 import {
   DarkTheme,
   DefaultTheme,
@@ -28,7 +29,7 @@ export default function RootLayout() {
     <GluestackUIProvider mode="light">
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <Provider store={store}>
-          {/* <UseTokenLoader /> */}
+          <UseTokenLoader />
           <Stack>
             <Stack.Screen
               name="screens/login"

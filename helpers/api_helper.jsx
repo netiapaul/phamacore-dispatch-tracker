@@ -16,7 +16,7 @@ const axiosApi = axios.create({
   baseURL: API_URL,
 });
 
-axiosApi.defaults.headers.common["Authorization"] = token;
+axiosApi.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
 axiosApi.interceptors.response.use(
   (response) => response,
@@ -109,4 +109,42 @@ const loginUserAuth = async (data) => {
   }
 };
 
-export { loginUserAuth };
+const getInvoices = async (data, config = {}) => {
+  try {
+    const response = await axiosApi.get(url.INVOICE_LIST, { ...config });
+
+    if (response.status >= 200 && response.status <= 299) {
+      return response.data;
+    }
+
+    throw new Error("Unexpected response status");
+  } catch (err) {
+    let message = "An error occured processing your current request!";
+
+    if (err.response) {
+      const data = err.response.data;
+
+      if (typeof data === "string") {
+        message = data;
+      } else if (data?.message) {
+        message = data.message;
+      } else if (Array.isArray(data?.errors)) {
+        // Join multiple errors if it's an array of strings
+        message = data.errors.join(", ");
+      } else if (typeof data?.errors === "object") {
+        // If errors is an object like { email: ['Email is invalid'] }
+        const errorMessages = Object.values(data.errors).flat().join(", ");
+        message = errorMessages || message;
+      }
+    } else if (err.request) {
+      // Request made but no response received (network error, timeout, etc)
+      message = defErrorMessage;
+    } else if (err.message) {
+      message = err.message;
+    }
+
+    throw new Error(message);
+  }
+};
+
+export { getInvoices, loginUserAuth };
