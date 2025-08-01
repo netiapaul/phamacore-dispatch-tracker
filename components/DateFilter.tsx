@@ -1,17 +1,5 @@
-import { Button, ButtonText } from "@/components/ui/button";
-import { Heading } from "@/components/ui/heading";
-import { CloseIcon, Icon } from "@/components/ui/icon";
 import Moment from "moment";
 
-import {
-  Modal,
-  ModalBackdrop,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-} from "@/components/ui/modal";
 import { useAppSelector } from "@/store/hooks";
 import React, { useState } from "react";
 import { StyleSheet, Text, TouchableHighlight, View } from "react-native";
@@ -24,15 +12,11 @@ export function DateFilter() {
   return (
     <>
       <TouchableHighlight
-        onPress={() => setShowModal(true)}
+        onPress={() => setShowModal(!showModal)}
         underlayColor={"#ffe0b2"}
-        className="px-5"
       >
         <View style={styles.container}>
           <Text style={styles.date}>
-            {/* {`From: ${new Intl.DateTimeFormat("en-GB").format(
-              new Date()
-            )} To: ${new Intl.DateTimeFormat("en-GB").format(new Date())}`} */}
             {`From: ${Moment(startDate).format("DD/MM/YYYY")}  To: ${Moment(
               endDate
             ).format("DD/MM/YYYY")}`}
@@ -42,7 +26,12 @@ export function DateFilter() {
           </View>
         </View>
       </TouchableHighlight>
-      <Modal
+      {showModal && (
+        <View>
+          <AppDatePicker />
+        </View>
+      )}
+      {/* <Modal
         isOpen={showModal}
         avoidKeyboard={true}
         closeOnOverlayClick={false}
@@ -66,7 +55,7 @@ export function DateFilter() {
             </ModalCloseButton>
           </ModalHeader>
           <ModalBody>
-            <AppDatePicker />
+            <AppDatePicker startDate={startDate} endDate={endDate} />
           </ModalBody>
           <ModalFooter>
             <Button
@@ -87,7 +76,7 @@ export function DateFilter() {
             </Button>
           </ModalFooter>
         </ModalContent>
-      </Modal>
+      </Modal> */}
     </>
   );
 }

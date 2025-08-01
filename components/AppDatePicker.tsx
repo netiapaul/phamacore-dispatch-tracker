@@ -1,3 +1,5 @@
+import { setEndDate, setStartDate } from "@/features/invoiceSlice";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
@@ -5,18 +7,24 @@ import React, { useState } from "react";
 import { Button, Platform, Text, View } from "react-native";
 
 const AppDatePicker = () => {
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const { startDate, endDate } = useAppSelector((state) => state.invoice);
+
+  const [fromDate, setFromDate] = useState(new Date(startDate));
+  const [toDate, setToDate] = useState(new Date(endDate));
 
   const [showStart, setShowStart] = useState(false);
   const [showEnd, setShowEnd] = useState(false);
 
+  const dispatch = useAppDispatch();
+
   const onStartChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
     setShowStart(Platform.OS === "ios"); // iOS needs picker to remain visible
     if (selectedDate) {
-      setStartDate(selectedDate);
-      if (selectedDate > endDate) {
-        setEndDate(selectedDate); // adjust endDate if it's before new startDate
+      setFromDate(selectedDate);
+      dispatch(setStartDate(selectedDate));
+      if (selectedDate > toDate) {
+        setToDate(selectedDate); // adjust endDate if it's before new startDate
+        dispatch(setEndDate(selectedDate));
       }
     }
   };
@@ -24,40 +32,50 @@ const AppDatePicker = () => {
   const onEndChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
     setShowEnd(Platform.OS === "ios");
     if (selectedDate) {
-      setEndDate(selectedDate);
-      if (selectedDate < startDate) {
-        setStartDate(selectedDate); // adjust startDate if it's after new endDate
+      setToDate(selectedDate);
+      dispatch(setEndDate(selectedDate));
+      if (selectedDate < fromDate) {
+        setFromDate(selectedDate); // adjust startDate if it's after new endDate
+        dispatch(setStartDate(selectedDate));
       }
     }
   };
 
+  // useEffect(() => {
+  //   setFromDate(new Date(startDate));
+  // }, [startDate]);
+
+  // useEffect(() => {
+  //   setToDate(new Date(endDate));
+  // }, [endDate]);
+
   return (
     <View style={{ padding: 20 }}>
-      <Text>Start Date: {startDate.toDateString()}</Text>
+      <Text>Start Date: {fromDate.toDateString()}</Text>
       <Button onPress={() => setShowStart(true)} title="Select Start Date" />
 
       {showStart && (
         <DateTimePicker
-          value={startDate}
+          value={fromDate}
           mode="date"
           display="default"
           onChange={onStartChange}
-          maximumDate={endDate}
+          maximumDate={toDate}
         />
       )}
 
       <View style={{ height: 20 }} />
 
-      <Text>End Date: {endDate.toDateString()}</Text>
+      <Text>End Date: {toDate.toDateString()}</Text>
       <Button onPress={() => setShowEnd(true)} title="Select End Date" />
 
       {showEnd && (
         <DateTimePicker
-          value={endDate}
+          value={toDate}
           mode="date"
           display="default"
           onChange={onEndChange}
-          minimumDate={startDate}
+          minimumDate={fromDate}
         />
       )}
     </View>
