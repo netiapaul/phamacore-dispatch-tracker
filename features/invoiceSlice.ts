@@ -15,8 +15,8 @@ export const getInvoiceList = createAsyncThunk(
       const response = await getInvoices({ startDate, endDate, searchWord });
       return response;
     } catch (error: any) {
-      //   console.log("ERROR", error);
-      return thunkAPI.rejectWithValue(error.message || "Login failed");
+      // console.log("ERROR", error);
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );

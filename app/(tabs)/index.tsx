@@ -1,11 +1,12 @@
-import { DateFilter } from "@/components/DateFilter";
 import { InvoiceList } from "@/components/invoiceList";
 import { ItemSearch } from "@/components/ItemSearch";
 import { ReceiveNavBar } from "@/components/ReceiveNavBar";
+import { Alert, AlertIcon, AlertText } from "@/components/ui/alert";
+import { InfoIcon } from "@/components/ui/icon";
 import { getInvoiceList } from "@/features/invoiceSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { useEffect } from "react";
-import { StatusBar, StyleSheet } from "react-native";
+import { ActivityIndicator, StatusBar, StyleSheet } from "react-native";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -22,10 +23,15 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <ReceiveNavBar />
-      {/* <StatusBar barStyle={isDarkMode ? "dark-content" : "light-content"} /> */}
       <StatusBar barStyle={"light-content"} />
       <ItemSearch />
-      <DateFilter />
+      {error && (
+        <Alert className="items-start" action="error">
+          <AlertIcon as={InfoIcon} size="md" />
+          <AlertText size="md">{error}</AlertText>
+        </Alert>
+      )}
+      {isLoading && <ActivityIndicator />}
       <InvoiceList />
     </SafeAreaView>
   );
