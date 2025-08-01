@@ -1,0 +1,9 @@
+<type>(<scope>): <short summary>
+
+# Describe your change:
+#
+# - What did you do?
+# - Why did you do it?
+# - Anything else worth noting?
+#
+# BREAKING CHANGE: if applicable
