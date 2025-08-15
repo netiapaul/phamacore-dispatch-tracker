@@ -13,6 +13,7 @@ export const getInvoiceList = createAsyncThunk(
   ) => {
     try {
       const response = await getInvoices({ startDate, endDate, searchWord });
+      console.log("Rendering InvoiceList", response);
       return response;
     } catch (error: any) {
       // console.log("ERROR", error);
@@ -70,6 +71,7 @@ export const invoiceSlice = createSlice({
       state.isLoading = false;
       state.invoices = action.payload;
       state.error = "";
+      console.log("Rendering InvoiceList", action.payload);
     });
     builder.addCase(getInvoiceList.rejected, (state, action) => {
       state.isLoading = false;
