@@ -22,6 +22,7 @@ const ConfirmationDetails = () => {
   //   LIGHT THEME #fff9c4
 
   return (
+    // <ScrollView style={styles.scrollView}>
     <ScrollView style={styles.scrollView}>
       {isLoading && <ActivityIndicator />}
       {Boolean(Object.keys(selectedInvoice).length) && (
@@ -55,7 +56,7 @@ const ConfirmationDetails = () => {
               <Text style={styles.text}>{`${Moment(
                 selectedInvoice.saledate
               ).format("DD/MM/YY")} ${Moment(
-                selectedInvoice.saletime.ticks / 10000
+                selectedInvoice.saletime?.ticks / 10000
               ).format("hh:mm A")}`}</Text>
             </View>
             <View style={styles.detailRow}>

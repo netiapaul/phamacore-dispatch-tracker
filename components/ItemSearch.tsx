@@ -1,15 +1,18 @@
 // import { Heading } from "@/components/ui/heading";
 import { SearchIcon } from "@/components/ui/icon";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
+import { setSearchWord } from "@/features/invoiceSlice";
+import { useAppDispatch } from "@/store/hooks";
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { DateFilter } from "./DateFilter";
 
 const ItemSearch = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const dispatch = useAppDispatch();
   const onChangeSearch = (query: string) => {
-    // dispatch(setSearchWord(query));
     setSearchQuery(query);
+    dispatch(setSearchWord(query));
   };
   return (
     <>

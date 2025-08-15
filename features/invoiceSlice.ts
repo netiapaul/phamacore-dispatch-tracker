@@ -27,6 +27,7 @@ const initialState = {
   searchWord: "",
   isLoading: false,
   invoices: [],
+  selectedInvoice: {},
   error: "",
 };
 
@@ -34,10 +35,10 @@ export const invoiceSlice = createSlice({
   name: "invoice",
   initialState,
   reducers: {
-    setStartDate(state, action: PayloadAction<Date>) {
+    setStartDate(state, action: PayloadAction<string>) {
       state.startDate = new Date(action.payload).toISOString();
     },
-    setEndDate(state, action: PayloadAction<Date>) {
+    setEndDate(state, action: PayloadAction<string>) {
       state.endDate = new Date(action.payload).toISOString();
     },
     setSearchWord(state, action: PayloadAction<string>) {
