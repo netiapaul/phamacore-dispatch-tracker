@@ -22,10 +22,6 @@ const AppDatePicker = () => {
     if (selectedDate) {
       setFromDate(selectedDate);
       dispatch(setStartDate(selectedDate.toISOString()));
-      if (selectedDate > toDate) {
-        setToDate(selectedDate); // adjust endDate if it's before new startDate
-        dispatch(setEndDate(selectedDate.toISOString()));
-      }
     }
   };
 
@@ -34,17 +30,24 @@ const AppDatePicker = () => {
     if (selectedDate) {
       setToDate(selectedDate);
       dispatch(setEndDate(selectedDate.toISOString()));
-      if (selectedDate < fromDate) {
-        setFromDate(selectedDate); // adjust startDate if it's after new endDate
-        dispatch(setStartDate(selectedDate.toISOString()));
-      }
     }
   };
 
   return (
-    <View style={{ padding: 20 }}>
-      <Text>Start Date: {fromDate.toDateString()}</Text>
-      <Button onPress={() => setShowStart(true)} title="Select Start Date" />
+    <View style={{ padding: 10 }}>
+      <View className="flex flex-row justify-between">
+        <View>
+          <Text>Start Date: {fromDate.toDateString()}</Text>
+          <Button
+            onPress={() => setShowStart(true)}
+            title="Select Start Date"
+          />
+        </View>
+        <View>
+          <Text>End Date: {toDate.toDateString()}</Text>
+          <Button onPress={() => setShowEnd(true)} title="Select End Date" />
+        </View>
+      </View>
 
       {showStart && (
         <DateTimePicker
@@ -55,11 +58,6 @@ const AppDatePicker = () => {
           maximumDate={toDate}
         />
       )}
-
-      <View style={{ height: 20 }} />
-
-      <Text>End Date: {toDate.toDateString()}</Text>
-      <Button onPress={() => setShowEnd(true)} title="Select End Date" />
 
       {showEnd && (
         <DateTimePicker
