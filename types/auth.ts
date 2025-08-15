@@ -17,7 +17,7 @@ export interface User {
 
 export interface AuthState {
   user: User;
-  token: string;
+  accessToken: string;
   refreshToken: string;
   isAuthenticated: boolean;
   isLoading: boolean;

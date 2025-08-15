@@ -19,7 +19,7 @@ const initialState: AuthState = {
     companyName: "",
     clientCode: "",
   },
-  token: "",
+  accessToken: "",
   refreshToken: "",
   isAuthenticated: false,
   isLoading: false,
@@ -27,7 +27,7 @@ const initialState: AuthState = {
 };
 
 export const loginUser = createAsyncThunk(
-  "/Auth",
+  "auth/login-user",
   async (
     { username, password }: { username: string; password: string },
     thunkAPI
@@ -36,7 +36,7 @@ export const loginUser = createAsyncThunk(
       const response = await loginUserAuth({ username, password });
       return response;
     } catch (error: any) {
-      //   console.log("ERROR", error);
+      // console.log("ERROR", error);
       return thunkAPI.rejectWithValue(error.message || "Login failed");
     }
   }
@@ -63,7 +63,7 @@ export const authSlice = createSlice({
         companyName: "",
         clientCode: "",
       };
-      state.token = "";
+      state.accessToken = "";
       state.refreshToken = "";
       state.isAuthenticated = false;
       state.isLoading = false;
@@ -73,7 +73,7 @@ export const authSlice = createSlice({
       state.error = action.payload;
     },
     handleTokenPersistence: (state, action: PayloadAction<string>) => {
-      state.token = action.payload;
+      state.accessToken = action.payload;
       state.isAuthenticated = true;
       state.isLoading = false;
     },
@@ -89,7 +89,7 @@ export const authSlice = createSlice({
         (state, action: PayloadAction<AuthState>) => {
           state.isLoading = false;
           state.user = action.payload.user;
-          state.token = action.payload.token;
+          state.accessToken = action.payload.accessToken;
           state.refreshToken = action.payload.refreshToken;
           state.isAuthenticated = true;
           state.error = "";

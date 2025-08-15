@@ -48,9 +48,8 @@ axiosApi.interceptors.response.use(
 const loginUserAuth = async (data) => {
   try {
     const response = await axiosApi.post(url.AUTH_LOGIN_USER, data);
-
     if (response.status >= 200 && response.status <= 299) {
-      await SecureStorage.setItem("token", response.data.token);
+      await SecureStorage.setItem("token", response.data.accessToken);
       await SecureStorage.setItem("refreshToken", response.data.refreshToken);
       return response.data;
     }
@@ -65,6 +64,7 @@ const loginUserAuth = async (data) => {
 const getInvoices = async (data, config = {}) => {
   try {
     const response = await axiosApi.get(url.INVOICE_LIST, { ...config });
+    console.log(response.request);
 
     if (response.status >= 200 && response.status <= 299) {
       return response.data;

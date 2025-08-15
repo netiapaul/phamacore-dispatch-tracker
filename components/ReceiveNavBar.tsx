@@ -1,5 +1,6 @@
 import { ChevronLeftIcon, Icon } from "@/components/ui/icon";
 import { Pressable } from "@/components/ui/pressable";
+import { useAppSelector } from "@/store/hooks";
 import { FontAwesome6 } from "@react-native-vector-icons/fontawesome6";
 import { usePathname, useRouter } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
@@ -8,6 +9,8 @@ const ReceiveNavBar = () => {
   const pathname = usePathname();
   const router = useRouter();
   const isHome = pathname === "/";
+
+  const { user } = useAppSelector((state) => state.auth);
 
   //   const handleLogout = () => {
   //     console.log("greatness");
@@ -42,7 +45,7 @@ const ReceiveNavBar = () => {
               size={15}
             />
             <Text style={styles.text} className="text-white">
-              {"Greatness"}
+              {user?.userName}
             </Text>
           </View>
           {/* <Pressable onPress={handleLogout}>
@@ -63,7 +66,7 @@ const ReceiveNavBar = () => {
           iconStyle="solid"
         />
         <Text className="text-white" style={styles.text}>
-          corebase
+          {user?.companyName}
         </Text>
       </View>
     </View>
